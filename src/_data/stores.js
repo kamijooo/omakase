@@ -13,7 +13,31 @@
  *  - japan   → ?utm_source=lp-japan&utm_medium=referral
  *  - global  → ?utm_source=lp-global&utm_medium=referral
  *  - map     → ?utm_source=lp-map&utm_medium=referral
+ *
+ * 【予約導線の切り替え】reserve_system フィールドで店舗ごとに選択:
+ *  - "tablecheck" → 予約ボタンを押すと外部TableCheck画面に遷移(現状の全店構成)
+ *  - "form"       → ページ内モーダルで予約フォーム(EmailJS)を表示
+ *
+ * フォーム体制で必要な設定はすべて `form_config` にまとめてある。
+ * 切り替えるときは store の reserve_system を "form" にして、
+ * 必要なら form_config の値(EmailJS情報・工事休業日など)を上書きするだけ。
  */
+
+// ============================================================
+// ブランド共通: フォーム送信時の EmailJS 設定
+// (全店共通。テンプレート側で store.location を送るので、
+//  メール本文の差別化はテンプレ側でやる)
+// ============================================================
+const FORM_DEFAULT = {
+  emailjs: {
+    public_key:        "6I-wkxv05ZwY-PpXa",
+    service_id:        "service_41qov79",
+    template_id_owner: "template_uk1m5wn",  // 店舗側へ届くメール
+    template_id_guest: "template_f9w6hmy"   // ゲストへの自動返信
+  },
+  // 予約不可日(YYYY-MM-DD)。店舗ごとに上書き可。
+  blocked_dates: []
+};
 
 const STORES = [
   // ============================================================
@@ -41,31 +65,34 @@ const STORES = [
     hours: "11:00 – 23:00",
     hours_note: "Open Daily",
 
+    // ▼ 予約導線
+    reserve_system: "tablecheck",  // "tablecheck" | "form"
     tablecheck_url: "https://www.tablecheck.com/shops/halal-omakase-asakusa/reserve",
+    form_config: FORM_DEFAULT,
+
     maps_link: "https://maps.app.goo.gl/pxiMce5bhj1WMLpo9",
 
     rating: "4.8",
     rating_count: "500+",
     rating_source: "Google reviews",
 
-    // Google Maps embed iframe src(各店舗で違う)
     maps_embed: "https://www.google.com/maps?q=Omakase+Sushi+Wagyu+Asakusa+Tokyo&output=embed"
   },
 
   // ============================================================
-  // 2. 京都祇園店(京都)
+  // 2. 京都祇園四条店(京都)
   // ============================================================
   {
     region: "kyoto",
-    slug: "gion",
+    slug: "gion-shijo",
 
-    name_full_en: "Kyoto Omakase Sushi & Wagyu Steak (Muslim-Friendly) Gion Restaurant",
-    name_short: "Omakase 墨 — Gion",
-    name_jp: "おまかせ 墨 祇園店",
+    name_full_en: "Kyoto Omakase Sushi & Wagyu Steak (Muslim-Friendly) Gion-Shijo Restaurant",
+    name_short: "Omakase 墨 — Gion-Shijo",
+    name_jp: "おまかせ 墨 祇園四条店",
     name_zh: "京都寿司和牛餐厅",
 
     city: "Gion, Kyoto",
-    region_label: "Gion · Kyoto",
+    region_label: "Gion-Shijo · Kyoto",
     station_en: "Gion-Shijo Station",
     address_jp_line1: "京都府京都市東山区富永町135",
     address_en_line1: "135 Tominaga-cho, Higashiyama-ku, Kyoto",
@@ -77,7 +104,10 @@ const STORES = [
     hours: "11:00 – 23:00",
     hours_note: "Open Daily",
 
-    tablecheck_url: "TBD",  // ⏳ 後で差し替え
+    reserve_system: "tablecheck",
+    tablecheck_url: "https://www.tablecheck.com/shops/5wshijo/reserve",
+    form_config: FORM_DEFAULT,
+
     maps_link: "https://maps.app.goo.gl/TbMo3qDpCAJdZxQ28",
 
     rating: "4.8",
@@ -112,7 +142,10 @@ const STORES = [
     hours: "11:00 – 23:00",
     hours_note: "Open Daily",
 
-    tablecheck_url: "TBD",  // ⏳ 後で差し替え
+    reserve_system: "tablecheck",
+    tablecheck_url: "https://www.tablecheck.com/shops/yakiniku-burger-ramen-zen/reserve",
+    form_config: FORM_DEFAULT,
+
     maps_link: "https://maps.app.goo.gl/dUzfn2z9UQnkC8k57",
 
     rating: "4.8",
@@ -120,6 +153,45 @@ const STORES = [
     rating_source: "Google reviews",
 
     maps_embed: "https://www.google.com/maps?q=Tsukiji+Fish+Market+Sushi+Omakase+Wagyu&output=embed"
+  },
+
+  // ============================================================
+  // 4. 東心斎橋店(大阪)
+  // ============================================================
+  // ⏳ TODO: tablecheck_url / maps_link / maps_embed を確定したら差し替える
+  {
+    region: "osaka",
+    slug: "higashi-shinsaibashi",
+
+    name_full_en: "Osaka Omakase Sushi & Wagyu Steak Halal Dotonbori Restaurant",
+    name_short: "Omakase 墨 — Higashi-Shinsaibashi",
+    name_jp: "おまかせ 墨 東心斎橋店",
+    name_zh: "大阪寿司和牛餐厅",
+
+    city: "Higashi-Shinsaibashi, Osaka",
+    region_label: "Higashi-Shinsaibashi · Osaka",
+    station_en: "Shinsaibashi Station",
+    address_jp_line1: "大阪府大阪市中央区東心斎橋1-18-6 ギャラリービルディング 4F",
+    address_en_line1: "1-18-6 Higashi-Shinsaibashi, Chuo-ku, Osaka, Gallery Bldg. 4F",
+    address_postal: "542-0083",
+
+    tel_display: "090-8129-5414",
+    tel_raw: "+819081295414",
+
+    hours: "11:00 – 23:00",
+    hours_note: "Open Daily",
+
+    reserve_system: "tablecheck",
+    tablecheck_url: "TBD",     // ⏳ 確定したら差し替え
+    form_config: FORM_DEFAULT,
+
+    maps_link: "TBD",          // ⏳ GoogleマップURLが来たら差し替え
+
+    rating: "4.8",
+    rating_count: "100+",
+    rating_source: "Google reviews",
+
+    maps_embed: "https://www.google.com/maps?q=Higashi+Shinsaibashi+Osaka+1-18-6&output=embed"  // ⏳ 埋め込みHTMLが来たら差し替え
   }
 ];
 
