@@ -191,7 +191,7 @@ const STORES = [
     rating_count: "100+",
     rating_source: "Google reviews",
 
-    maps_embed: "https://www.google.com/maps?q=Higashi+Shinsaibashi+Osaka+1-18-6&output=embed"  // ⏳ 埋め込みHTMLが来たら差し替え
+    maps_embed: "TBD"  // ⏳ 埋め込みHTMLが来たら差し替え
   }
 ];
 
