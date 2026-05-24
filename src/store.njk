@@ -37,7 +37,29 @@ eleventyComputed:
 </script>
 
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+{% if store.slug == "kominka" %}
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17959279983"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'AW-17959279983');
+</script>
+{% endif %}
+
+{% if store.slug == "gion-shijo" %}
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18160244247"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-18160244247');
+</script>
+{% endif %}
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Epilogue:wght@300;400;600&family=Josefin+Sans:wght@300;400;600&family=Noto+Serif+JP:wght@300;400;600&display=swap" rel="stylesheet"/>
