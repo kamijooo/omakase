@@ -191,7 +191,7 @@ const STORES = [
     rating_count: "100+",
     rating_source: "Google reviews",
 
-    maps_embed: "TBD"  // ⏳ 埋め込みHTMLが来たら差し替え
+    maps_embed: "TBD"          // ⏳ 埋め込みHTMLが来たら差し替え
   }
 ];
 
