@@ -16,7 +16,7 @@ eleventyComputed:
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>{{ store.name_full_en }}</title>
-<meta name="description" content="Muslim-friendly omakase featuring ultra-rare lean Wagyu and authentic Edomae sushi in {{ store.city }}. Alcohol-free menu, crafted for everyone.">
+<meta name="description" content="Muslim-friendly omakase featuring ultra-rare lean Wagyu and authentic omakase sushi in {{ store.city }}. Alcohol-free menu, crafted for everyone.">
 {% if store.channel_id != "default" %}
 <meta name="robots" content="noindex,follow">
 <link rel="canonical" href="https://{{ stores.brand.domain }}/{{ store.region }}/{{ store.slug }}/">
@@ -194,7 +194,7 @@ body { padding-bottom: 72px; }
 <div id="slideshow" class="absolute inset-0">
 <img class="slide absolute inset-0 w-full h-full object-cover" src="/images/hero.jpg" alt="Omakase Full Course"/>
 <img class="slide absolute inset-0 w-full h-full object-cover opacity-0" src="/images/sushi.jpg" alt="Omakase Sushi"/>
-<img class="slide absolute inset-0 w-full h-full object-cover opacity-0" src="/images/wagyu.jpg" alt="A5 Wagyu"/>
+<img class="slide absolute inset-0 w-full h-full object-cover opacity-0" src="/images/wagyu.jpg" alt="Authentic Japanese Wagyu"/>
 <img class="slide absolute inset-0 w-full h-full object-cover opacity-0" src="/images/Seasonal_menu.jpg" alt="Seasonal Menu"/>
 <img class="slide absolute inset-0 w-full h-full object-cover opacity-0" src="/images/Japanese_sweets.jpg" alt="Japanese Sweets"/>
 </div>
@@ -202,7 +202,7 @@ body { padding-bottom: 72px; }
 </div>
 
 <div class="relative z-10 w-full px-8 pb-28 text-center">
-<span class="inline-block border border-ginza-gold/50 px-3 py-1 mb-6 text-[10px] tracking-[0.3em] text-ginza-gold uppercase jp-text">浅草 · ASAKUSA · TOKYO</span>
+<span class="inline-block border border-ginza-gold/50 px-3 py-1 mb-6 text-[10px] tracking-[0.3em] text-ginza-gold uppercase jp-text">{{ store.area_label_jp }} · {{ store.area_label_en }} · {{ store.area_label_country }}</span>
 <h1 class="font-cormorant italic text-4xl md:text-5xl mb-3 leading-tight">
 {{ store.name_full_en }}<br/><span class="text-2xl md:text-3xl">{{ store.name_zh }}</span>
 </h1>
@@ -279,7 +279,7 @@ slides[current].style.opacity = '1';
 <p class="section-label mb-4">Menu · Mastery</p>
 <h3 class="font-cormorant italic text-3xl mb-4 leading-snug">"Where Theatre Meets Taste"</h3>
 <p class="text-sm font-light leading-relaxed text-ginza-ivory/70 max-w-lg mx-auto">
-From the delicate assembly of Edomae-style sushi to the dramatic carving of A5 Wagyu, every course is a choreographed masterpiece performed live before your eyes.
+From the delicate craftsmanship of our omakase sushi to the dramatic carving of Authentic Japanese Wagyu, every course is a choreographed masterpiece performed live before your eyes.
 </p>
 </div>
 <div class="flex mb-10">
@@ -292,11 +292,11 @@ From the delicate assembly of Edomae-style sushi to the dramatic carving of A5 W
 </div>
 </div>
 <div class="relative flex-1 h-52 overflow-hidden group">
-<img alt="A5 Wagyu" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="/images/wagyu.jpg"/>
+<img alt="Authentic Japanese Wagyu" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="/images/wagyu.jpg"/>
 <div class="absolute inset-0 bg-gradient-to-l from-transparent to-ginza-black/70"></div>
 <div class="absolute bottom-0 left-0 p-4">
 <p class="text-[9px] tracking-widest uppercase text-ginza-gold mb-0.5">The Ritual</p>
-<p class="font-cormorant italic text-lg">A5 Wagyu</p>
+<p class="font-cormorant italic text-lg">Authentic Japanese Wagyu</p>
 </div>
 </div>
 </div>
@@ -344,7 +344,7 @@ I visit livestock farms all over Japan and purchase only Wagyu that I truly acce
 <div class="mb-4">
 <p class="section-label mb-3">For Everyone in the World</p>
 <p class="text-sm font-light leading-relaxed text-ginza-ivory/70">
-I personally select Wagyu processed at trusted suppliers in Japan. This restaurant was born to share authentic Japanese food culture with everyone — regardless of nationality, religion, age, or gender.
+I personally select Wagyu with care, respecting all dietary needs. This restaurant was born to share authentic Japanese food culture with everyone — regardless of nationality, religion, age, or gender.
 </p>
 </div>
 </div>
@@ -522,24 +522,27 @@ window.addEventListener('load', function() {
     </p>
   </div>
 
-  <div class="review-scroll">
+  <!-- Review scroll container -->
+  <div class="review-scroll" id="reviewScroll">
+
+    <!-- Review 1: English / UAE -->
     <div class="review-card">
       <div class="flex items-center gap-1 mb-3">
         <span class="text-ginza-gold text-sm">★★★★★</span>
         <span class="text-[10px] text-ginza-ivory/40 font-josefin tracking-wider ml-2">TRIPADVISOR</span>
       </div>
       <p class="font-cormorant italic text-base leading-relaxed text-ginza-ivory/85 mb-4">
-        "Beautifully presented Wagyu, thoughtfully served. The Muslim-friendly menu meant my family from Dubai could fully enjoy the experience. Truly felt at home."
+        "Beautifully presented Wagyu, thoughtfully served. The Muslim-friendly menu meant my family from Dubai could fully enjoy the experience. Truly felt at home in Tokyo."
       </p>
       <div class="flex items-center gap-3 pt-3 border-t border-ginza-gold/10">
         <div class="w-8 h-8 rounded-full bg-ginza-gold/20 border border-ginza-gold/30 flex items-center justify-center text-ginza-gold font-cormorant italic text-sm">A</div>
         <div>
-          <p class="text-[11px] font-josefin tracking-wider text-ginza-ivory/70">Ahmed K.</p>
-          <p class="text-[9px] text-ginza-ivory/40 tracking-widest uppercase">Dubai · UAE</p>
+          <p class="text-[11px] font-josefin tracking-wider text-ginza-ivory/70">A.</p>
         </div>
       </div>
     </div>
 
+    <!-- Review 2: English / US -->
     <div class="review-card">
       <div class="flex items-center gap-1 mb-3">
         <span class="text-ginza-gold text-sm">★★★★★</span>
@@ -551,12 +554,12 @@ window.addEventListener('load', function() {
       <div class="flex items-center gap-3 pt-3 border-t border-ginza-gold/10">
         <div class="w-8 h-8 rounded-full bg-ginza-gold/20 border border-ginza-gold/30 flex items-center justify-center text-ginza-gold font-cormorant italic text-sm">J</div>
         <div>
-          <p class="text-[11px] font-josefin tracking-wider text-ginza-ivory/70">Jennifer M.</p>
-          <p class="text-[9px] text-ginza-ivory/40 tracking-widest uppercase">New York · USA</p>
+          <p class="text-[11px] font-josefin tracking-wider text-ginza-ivory/70">J.</p>
         </div>
       </div>
     </div>
 
+    <!-- Review 3: Japanese -->
     <div class="review-card">
       <div class="flex items-center gap-1 mb-3">
         <span class="text-ginza-gold text-sm">★★★★★</span>
@@ -568,12 +571,12 @@ window.addEventListener('load', function() {
       <div class="flex items-center gap-3 pt-3 border-t border-ginza-gold/10">
         <div class="w-8 h-8 rounded-full bg-ginza-gold/20 border border-ginza-gold/30 flex items-center justify-center text-ginza-gold font-cormorant italic text-sm">T</div>
         <div>
-          <p class="text-[11px] font-josefin tracking-wider text-ginza-ivory/70">田中 宏之 様</p>
-          <p class="text-[9px] text-ginza-ivory/40 tracking-widest uppercase">Tokyo · Japan</p>
+          <p class="text-[11px] font-josefin tracking-wider text-ginza-ivory/70">T. 様</p>
         </div>
       </div>
     </div>
 
+    <!-- Review 4: Chinese (Traditional) -->
     <div class="review-card">
       <div class="flex items-center gap-1 mb-3">
         <span class="text-ginza-gold text-sm">★★★★★</span>
@@ -585,44 +588,49 @@ window.addEventListener('load', function() {
       <div class="flex items-center gap-3 pt-3 border-t border-ginza-gold/10">
         <div class="w-8 h-8 rounded-full bg-ginza-gold/20 border border-ginza-gold/30 flex items-center justify-center text-ginza-gold font-cormorant italic text-sm">L</div>
         <div>
-          <p class="text-[11px] font-josefin tracking-wider text-ginza-ivory/70">Lin H.</p>
-          <p class="text-[9px] text-ginza-ivory/40 tracking-widest uppercase">Hong Kong</p>
+          <p class="text-[11px] font-josefin tracking-wider text-ginza-ivory/70">L.</p>
         </div>
       </div>
     </div>
 
+    <!-- Review 5: English / Malaysia -->
     <div class="review-card">
       <div class="flex items-center gap-1 mb-3">
         <span class="text-ginza-gold text-sm">★★★★★</span>
         <span class="text-[10px] text-ginza-ivory/40 font-josefin tracking-wider ml-2">GOOGLE</span>
       </div>
       <p class="font-cormorant italic text-base leading-relaxed text-ginza-ivory/85 mb-4">
-        "As a Muslim food lover, finding an authentic Muslim-friendly omakase in Japan was a dream. The attention to dietary detail and respect for our needs really showed. The wagyu itself was sublime."
+        "As a Muslim food lover, finding an authentic Muslim-friendly omakase in Tokyo was a dream. The attention to dietary detail and respect for our needs really showed. The wagyu itself was sublime."
       </p>
       <div class="flex items-center gap-3 pt-3 border-t border-ginza-gold/10">
         <div class="w-8 h-8 rounded-full bg-ginza-gold/20 border border-ginza-gold/30 flex items-center justify-center text-ginza-gold font-cormorant italic text-sm">F</div>
         <div>
-          <p class="text-[11px] font-josefin tracking-wider text-ginza-ivory/70">Farah S.</p>
-          <p class="text-[9px] text-ginza-ivory/40 tracking-widest uppercase">Kuala Lumpur</p>
+          <p class="text-[11px] font-josefin tracking-wider text-ginza-ivory/70">F.</p>
         </div>
       </div>
     </div>
+
+    <!-- Review 6: English / Cultural experience -->
+    <div class="review-card">
+      <div class="flex items-center gap-1 mb-3">
+        <span class="text-ginza-gold text-sm">★★★★★</span>
+        <span class="text-[10px] text-ginza-ivory/40 font-josefin tracking-wider ml-2">TRIPADVISOR</span>
+      </div>
+      <p class="font-cormorant italic text-base leading-relaxed text-ginza-ivory/85 mb-4">
+        "This was not just a meal — it was a true cultural experience. From the chef's craftsmanship to the storytelling behind every dish, we felt deeply connected to Japanese tradition. If you visit Japan, you absolutely must experience this!!"
+      </p>
+      <div class="flex items-center gap-3 pt-3 border-t border-ginza-gold/10">
+        <div class="w-8 h-8 rounded-full bg-ginza-gold/20 border border-ginza-gold/30 flex items-center justify-center text-ginza-gold font-cormorant italic text-sm">M</div>
+        <div>
+          <p class="text-[11px] font-josefin tracking-wider text-ginza-ivory/70">M.</p>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <p class="md:hidden text-center text-[9px] text-ginza-ivory/30 font-josefin tracking-widest mt-2">← Swipe to read more →</p>
 
-  <div class="mt-10 flex flex-wrap justify-center items-center gap-6 pt-8 border-t border-ginza-gold/10">
-    <div class="text-center">
-      <p class="font-cormorant italic text-3xl text-ginza-gold leading-none mb-1">{{ store.rating }}</p>
-      <p class="text-ginza-gold text-sm mb-1">★★★★★</p>
-      <p class="text-[9px] text-ginza-ivory/40 font-josefin tracking-widest uppercase">Google · {{ store.rating_count }} reviews</p>
-    </div>
-    <div class="w-px h-12 bg-ginza-gold/20"></div>
-    <div class="text-center">
-      <p class="font-cormorant italic text-3xl text-ginza-gold leading-none mb-1">No.1</p>
-      <p class="text-[9px] text-ginza-ivory/40 font-josefin tracking-widest uppercase mt-2">Tripadvisor Tokyo<br/>Aug 2025 — Mar 2026 (flagship)</p>
-    </div>
-  </div>
 </div>
 </section>
 
@@ -721,7 +729,7 @@ allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" ti
 <p class="section-label mb-3">Muslim-Friendly Dining</p>
 <h2 class="font-cormorant italic text-3xl mb-6">A Muslim-Friendly Dining Experience in {{ store.city.split(',')[0] }}</h2>
 <p class="text-sm font-light leading-relaxed text-ginza-ivory/70 max-w-xs mb-4">
-Welcome to our restaurant — a warm, inclusive space where guests from all cultures can dine with peace of mind. We thoughtfully prepare pork-free, alcohol-free dishes, making us a trusted choice for Muslim travelers and families visiting Japan.
+Welcome to our restaurant — a warm, inclusive space where guests from all cultures can dine with peace of mind. We thoughtfully prepare alcohol-free, pork-free dishes, making us a trusted choice for Muslim travelers and families visiting Japan.
 </p>
 <p class="text-sm font-light leading-relaxed text-ginza-ivory/60 max-w-xs mb-8">
 Please feel free to share any dietary preferences or restrictions when making your reservation — we will do our best to accommodate.
