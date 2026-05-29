@@ -1,0 +1,209 @@
+---
+permalink: /cancel/index.html
+eleventyExcludeFromCollections: true
+---
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>ご予約キャンセル / Cancel Reservation | omakase 墨</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold:#c9a96e; --bg:#0e0e0e; --panel:#17150f; --line:#3a352a;
+    --text:#ece9e2; --muted:#9b9484; --error:#e2776b; --ok:#7fbf8f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:'Noto Sans JP',sans-serif; line-height:1.7;
+    min-height:100vh; display:flex; align-items:flex-start; justify-content:center;
+    padding:32px 16px;
+  }
+  .wrap{width:100%; max-width:520px;}
+  .brand{
+    font-family:'Josefin Sans',sans-serif; letter-spacing:.18em;
+    color:var(--gold); font-size:15px; text-align:center; margin-bottom:18px;
+  }
+  .card{
+    background:var(--panel); border:1px solid var(--line); border-radius:14px;
+    padding:28px 24px;
+  }
+  h1{
+    font-family:'Josefin Sans',sans-serif; font-weight:700; font-size:20px;
+    letter-spacing:.08em; margin:0 0 4px; color:#fff;
+  }
+  h1 .en{display:block; font-size:11px; letter-spacing:.22em; color:var(--muted); margin-top:6px; text-transform:uppercase;}
+  .lead{font-size:13px; color:var(--muted); margin:14px 0 22px;}
+  label{display:block; font-size:12px; letter-spacing:.06em; color:var(--gold); margin:18px 0 6px;}
+  label .en{color:var(--muted); letter-spacing:.12em;}
+  .req{color:var(--error); margin-left:4px;}
+  input,textarea{
+    width:100%; background:#0c0b08; border:1px solid var(--line); border-radius:8px;
+    color:var(--text); font-family:inherit; font-size:15px; padding:12px 13px;
+  }
+  input:focus,textarea:focus{outline:none; border-color:var(--gold);}
+  input[readonly]{color:var(--muted);}
+  textarea{min-height:88px; resize:vertical;}
+  .hint{font-size:11px; color:var(--muted); margin-top:5px;}
+  .policy{
+    background:#0c0b08; border:1px solid var(--line); border-radius:8px;
+    padding:13px 14px; margin:22px 0 6px; font-size:12px; color:var(--muted);
+  }
+  .policy b{color:var(--text); font-weight:500;}
+  button{
+    width:100%; margin-top:22px; background:var(--gold); color:#0b0b0b;
+    font-family:'Josefin Sans',sans-serif; font-weight:700; font-size:13px;
+    letter-spacing:.15em; text-transform:uppercase; border:none; border-radius:9px;
+    padding:15px; cursor:pointer; transition:opacity .2s;
+  }
+  button:disabled{opacity:.5; cursor:default;}
+  button .jp{display:block; font-family:'Noto Sans JP',sans-serif; font-size:11px; letter-spacing:.08em; margin-top:3px; opacity:.8;}
+  .msg{display:none; margin-top:20px; padding:14px 15px; border-radius:8px; font-size:13px;}
+  .msg.show{display:block;}
+  .msg.is-error{background:rgba(226,119,107,.12); border:1px solid var(--error); color:#f1b7af;}
+  .msg.is-ok{background:rgba(127,191,143,.12); border:1px solid var(--ok); color:#bfe3c8;}
+  .msg .en{display:block; color:var(--muted); margin-top:4px; font-size:12px;}
+  .foot{text-align:center; margin-top:20px; font-size:11px; color:var(--muted);}
+  .foot a{color:var(--gold); text-decoration:none;}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">omakase 墨</div>
+    <div class="card">
+      <h1>ご予約のキャンセル<span class="en">Cancel your reservation</span></h1>
+      <p class="lead">予約番号・お電話番号・キャンセル理由をご入力ください。<br>Please enter your reservation ID, phone number, and reason for cancellation.</p>
+
+      <div id="form_area">
+        <label for="c_rid">予約番号 <span class="en">Reservation ID</span><span class="req">*</span></label>
+        <input id="c_rid" type="text" autocomplete="off" placeholder="例 / e.g. a1b2c3d4">
+
+        <label for="c_phone">電話番号 <span class="en">Phone number</span><span class="req">*</span></label>
+        <input id="c_phone" type="tel" autocomplete="tel" placeholder="ご予約時の電話番号 / as registered">
+        <p class="hint">ご予約時に入力された電話番号と一致する必要があります。<br>Must match the phone number used for the booking.</p>
+
+        <label for="c_reason">キャンセル理由 <span class="en">Reason</span><span class="req">*</span></label>
+        <textarea id="c_reason" placeholder="キャンセルの理由をご記入ください / Please tell us why"></textarea>
+
+        <div class="policy">
+          <b>キャンセルポリシー / Cancellation policy</b><br>
+          ご予約日の24時間前以降のキャンセル：¥5,000 ／ 48時間前以降：¥2,500<br>
+          Within 24 hours: ¥5,000 / Within 48 hours: ¥2,500 of the reservation time.
+        </div>
+
+        <button id="c_submit" type="button">
+          キャンセルを申請する
+          <span class="jp">Submit cancellation</span>
+        </button>
+      </div>
+
+      <div id="c_msg" class="msg"></div>
+    </div>
+    <div class="foot">omakase 墨 — <a href="/">{{ stores.brand.domain }}</a></div>
+  </div>
+
+<script>
+(function(){
+  var GAS_ENDPOINT = '{{ stores.brand.gas_endpoint or "" }}';
+
+  var ridEl    = document.getElementById('c_rid');
+  var phoneEl  = document.getElementById('c_phone');
+  var reasonEl = document.getElementById('c_reason');
+  var btn      = document.getElementById('c_submit');
+  var formArea = document.getElementById('form_area');
+  var msgEl    = document.getElementById('c_msg');
+  var BTN_HTML = btn.innerHTML;
+
+  // ?rid= で予約番号を自動入力
+  try {
+    var rid = new URLSearchParams(window.location.search).get('rid');
+    if (rid) ridEl.value = rid.trim();
+  } catch (e) {}
+
+  function showMsg(kind, jp, en){
+    msgEl.className = 'msg show ' + (kind === 'ok' ? 'is-ok' : 'is-error');
+    msgEl.innerHTML = jp + '<span class="en">' + en + '</span>';
+  }
+
+  btn.addEventListener('click', async function(){
+    var rid    = ridEl.value.trim();
+    var phone  = phoneEl.value.trim();
+    var reason = reasonEl.value.trim();
+
+    if (!rid || !phone || !reason){
+      showMsg('error',
+        '予約番号・電話番号・キャンセル理由はすべて必須です。',
+        'Reservation ID, phone number, and reason are all required.');
+      return;
+    }
+    if (!GAS_ENDPOINT){
+      showMsg('error',
+        '現在キャンセル受付を準備中です。お手数ですがお電話ください。',
+        'Online cancellation is temporarily unavailable. Please call us.');
+      return;
+    }
+
+    msgEl.className = 'msg';
+    btn.disabled = true; btn.textContent = 'Sending...';
+
+    var res;
+    try {
+      var resp = await fetch(GAS_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ type: 'cancel', rid: rid, phone: phone, reason: reason })
+      });
+      res = await resp.json();
+    } catch (err) {
+      btn.disabled = false; btn.innerHTML = BTN_HTML;
+      showMsg('error',
+        '通信に失敗しました。通信環境をご確認のうえ、再度お試しください。',
+        'Network error. Please check your connection and try again.');
+      return;
+    }
+
+    if (res && res.ok && res.already){
+      formArea.style.display = 'none';
+      showMsg('ok',
+        'この予約は既にキャンセル済みです。',
+        'This reservation has already been cancelled.');
+      return;
+    }
+    if (res && res.ok){
+      formArea.style.display = 'none';
+      var detail = [res.store, res.date, res.time].filter(Boolean).join(' / ');
+      showMsg('ok',
+        'キャンセルを受け付けました。' + (detail ? '（' + detail + '）' : '') + '確認メールをお送りしました。',
+        'Your cancellation has been received. A confirmation email has been sent.');
+      return;
+    }
+
+    btn.disabled = false; btn.innerHTML = BTN_HTML;
+    var reason_code = res && res.reason;
+    if (reason_code === 'mismatch'){
+      showMsg('error',
+        '予約番号と電話番号が一致しません。ご確認のうえ再度お試しください。',
+        'The reservation ID and phone number do not match.');
+    } else if (reason_code === 'not_found'){
+      showMsg('error',
+        'ご予約が見つかりませんでした。予約番号をご確認ください。',
+        'Reservation not found. Please check your reservation ID.');
+    } else if (reason_code === 'missing'){
+      showMsg('error',
+        '予約番号・電話番号・理由は必須です。',
+        'Reservation ID, phone, and reason are required.');
+    } else {
+      showMsg('error',
+        'エラーが発生しました。時間をおいて再度お試しください。',
+        'An error occurred. Please try again later.');
+    }
+  });
+})();
+</script>
+</body>
+</html>
