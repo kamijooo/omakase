@@ -154,6 +154,7 @@
         <div style="margin-bottom:16px;"><label style="display:block;font-size:10px;letter-spacing:0.15em;color:rgba(201,169,110,0.7);text-transform:uppercase;margin-bottom:6px;">お名前 / Name *</label><input id="r_name" type="text" placeholder="Yamada Taro" autocomplete="name" style="width:100%;background:#1a1a1a;border:1px solid rgba(201,169,110,0.25);border-radius:8px;padding:10px 14px;color:#f0ede4;font-size:16px;box-sizing:border-box;-webkit-appearance:none;"/></div>
         <div style="margin-bottom:16px;"><label style="display:block;font-size:10px;letter-spacing:0.15em;color:rgba(201,169,110,0.7);text-transform:uppercase;margin-bottom:6px;">メールアドレス / Email *</label><input id="r_email" type="email" placeholder="example@email.com" autocomplete="email" style="width:100%;background:#1a1a1a;border:1px solid rgba(201,169,110,0.25);border-radius:8px;padding:10px 14px;color:#f0ede4;font-size:16px;box-sizing:border-box;-webkit-appearance:none;"/></div>
         <div style="margin-bottom:16px;"><label style="display:block;font-size:10px;letter-spacing:0.15em;color:rgba(201,169,110,0.7);text-transform:uppercase;margin-bottom:6px;">電話番号 / Phone *</label><input id="r_phone" type="tel" placeholder="+81 90-0000-0000" autocomplete="tel" style="width:100%;background:#1a1a1a;border:1px solid rgba(201,169,110,0.25);border-radius:8px;padding:10px 14px;color:#f0ede4;font-size:16px;box-sizing:border-box;-webkit-appearance:none;"/></div>
+        <div style="margin-bottom:16px;"><label style="display:block;font-size:10px;letter-spacing:0.15em;color:rgba(201,169,110,0.7);text-transform:uppercase;margin-bottom:6px;">紹介者 / Referred by</label><input id="r_referrer" type="text" placeholder="ご紹介者のお名前（任意） / Optional" autocomplete="off" style="width:100%;background:#1a1a1a;border:1px solid rgba(201,169,110,0.25);border-radius:8px;padding:10px 14px;color:#f0ede4;font-size:16px;box-sizing:border-box;-webkit-appearance:none;"/></div>
 
         <div style="margin-bottom:16px;">
           <label style="display:block;font-size:10px;letter-spacing:0.15em;color:rgba(201,169,110,0.7);text-transform:uppercase;margin-bottom:8px;">コース / Course *</label>
@@ -417,6 +418,41 @@
     emailjs.init(EMAILJS_CFG.public_key);
   }
 
+  // ===== Phase 2: 上限・空き状況（GAS Web App） =====
+  var GAS_ENDPOINT = '{{ stores.brand.gas_endpoint or "" }}';
+
+  async function refreshAvailability() {
+    var date = document.getElementById('r_date').value;
+    var timeSel = document.getElementById('r_time');
+    if (!date || !timeSel || !GAS_ENDPOINT) return;
+    try {
+      var res = await fetch(GAS_ENDPOINT + '?store=' + encodeURIComponent(STORE_INFO.location_key) + '&date=' + encodeURIComponent(date));
+      var json = await res.json();
+      if (!json || !json.ok) return;
+      Array.prototype.forEach.call(timeSel.options, function (opt) {
+        if (!opt.value) return;
+        var slot = json.slots[opt.value];
+        if (!slot) return;
+        if (slot.full) {
+          opt.disabled = true;
+          opt.textContent = opt.value + '（満席 / Full）';
+          if (timeSel.value === opt.value) timeSel.value = '';
+        } else {
+          opt.disabled = false;
+          opt.textContent = opt.value + '（残り' + slot.remaining + '組 / ' + slot.remaining + ' left）';
+        }
+      });
+    } catch (err) { console.warn('availability fetch failed', err); }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var di = document.getElementById('r_date');
+    if (di) di.addEventListener('change', function () {
+      if (BLOCKED_DATES.length && BLOCKED_DATES.indexOf(this.value) !== -1) return;
+      refreshAvailability();
+    });
+  });
+
   // ============================================================
   // Course card radio selection
   // ============================================================
@@ -477,7 +513,7 @@
     document.getElementById('reserveSuccess').style.display = 'none';
     var brushReset = document.getElementById('sumiBrushSvg');
     if (brushReset) brushReset.classList.remove('drawing');
-    ['r_name','r_email','r_phone','r_course','r_guests','r_time','r_date','r_message','r_website'].forEach(function(id){
+    ['r_name','r_email','r_phone','r_referrer','r_course','r_guests','r_time','r_date','r_message','r_website'].forEach(function(id){
       var el = document.getElementById(id);
       if (el) el.value = '';
     });
@@ -588,6 +624,7 @@
     var checkDetails = document.getElementById('confirm_check_details').checked;
     var checkPolicy  = document.getElementById('confirm_check_policy').checked;
     var errEl = document.getElementById('confirm_error');
+    var btnHtml = 'この内容で送信<br/><span style="font-size:9px;opacity:0.75;">CONFIRM &amp; SEND</span>';
 
     if (!checkDetails || !checkPolicy) {
       errEl.textContent = '両方にチェックを入れてください / Please check both boxes.';
@@ -600,62 +637,91 @@
     btn.textContent = 'Sending...';
     btn.disabled = true;
 
+    var refEl = document.getElementById('r_referrer');
     var params = {
       name:    document.getElementById('r_name').value.trim(),
       email:   document.getElementById('r_email').value.trim(),
       phone:   document.getElementById('r_phone').value.trim(),
+      referrer: refEl ? refEl.value.trim() : '',
       course:  document.getElementById('r_course').value,
       guests:  document.getElementById('r_guests').value,
       time:    document.getElementById('r_time').value,
       date:    document.getElementById('r_date').value,
       message: document.getElementById('r_message').value.trim(),
       source_path:  window.location.pathname,
+      store_slug:   STORE_INFO.location_key,
       location:     STORE_INFO.location,
       location_key: STORE_INFO.location_key,
       address_jp:   STORE_INFO.address_jp,
       address_en:   STORE_INFO.address_en
     };
 
+    // Phase 2: 上限判定（GAS_ENDPOINTが空なら従来どおりメール送信のみ）
+    if (GAS_ENDPOINT) {
+      var capRes;
+      try {
+        var capResp = await fetch(GAS_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(params)
+        });
+        capRes = await capResp.json();
+      } catch (e) {
+        errEl.textContent = '空き状況の確認に失敗しました。通信環境をご確認のうえ、もう一度お試しください。';
+        errEl.style.display = 'block';
+        btn.innerHTML = btnHtml; btn.disabled = false;
+        return;
+      }
+      if (!capRes || !capRes.ok) {
+        errEl.textContent = (capRes && capRes.reason === 'full')
+          ? '申し訳ございません。選択された時間枠は満席です。別の時間をお選びください。/ This time slot is fully booked.'
+          : 'エラーが発生しました。再度お試しください。/ Please try again.';
+        errEl.style.display = 'block';
+        btn.innerHTML = btnHtml; btn.disabled = false;
+        if (typeof refreshAvailability === 'function') await refreshAvailability();
+        return;
+      }
+      params.booking_id = capRes.booking_id;
+    }
+
+    // 確定済み。メールはベストエフォート（失敗しても成功画面）
     try {
       await emailjs.send(EMAILJS_CFG.service_id, EMAILJS_CFG.template_id_owner, params);
       await emailjs.send(EMAILJS_CFG.service_id, EMAILJS_CFG.template_id_guest, params);
+    } catch (mailErr) {
+      console.warn('EmailJS failed but booking recorded:', mailErr);
+    }
 
-      // GA4 / dataLayer
-      if (typeof gtag === 'function') {
-        gtag('event', 'reservation_form_submit', {
-          'event_category': 'conversion',
-          'form_guests': params.guests,
-          'form_date': params.date,
-          'form_course': params.course,
-          'store_name': '{{ store.slug }}',
-          'store_area': '{{ store.region }}',
-          'brand': '{{ stores.brand.brand_slug }}',
-          'channel': '{{ store.channel_id }}'
-        });
-      }
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: 'reservation_form_submit',
-        form_guests: params.guests,
-        form_date: params.date,
-        form_course: params.course,
-        source_path: params.source_path
+    if (typeof gtag === 'function') {
+      gtag('event', 'reservation_form_submit', {
+        'event_category': 'conversion',
+        'form_guests': params.guests,
+        'form_date': params.date,
+        'form_course': params.course,
+        'store_name': '{{ store.slug }}',
+        'store_area': '{{ store.region }}',
+        'brand': '{{ stores.brand.brand_slug }}',
+        'channel': '{{ store.channel_id }}'
       });
+    }
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: 'reservation_form_submit',
+      form_guests: params.guests,
+      form_date: params.date,
+      form_course: params.course,
+      source_path: params.source_path,
+      booking_id: params.booking_id || ''
+    });
 
-      document.getElementById('confirmDialog').style.display = 'none';
-      document.getElementById('reserveForm').style.display = 'none';
-      document.getElementById('reserveSuccess').style.display = 'block';
-      var brushSvg = document.getElementById('sumiBrushSvg');
-      if (brushSvg) {
-        brushSvg.classList.remove('drawing');
-        void brushSvg.offsetWidth;
-        brushSvg.classList.add('drawing');
-      }
-    } catch (err) {
-      errEl.textContent = 'エラーが発生しました。再度お試しください。/ An error occurred. Please try again.';
-      errEl.style.display = 'block';
-      btn.innerHTML = 'この内容で送信<br/><span style="font-size:9px;opacity:0.75;">CONFIRM &amp; SEND</span>';
-      btn.disabled = false;
+    document.getElementById('confirmDialog').style.display = 'none';
+    document.getElementById('reserveForm').style.display = 'none';
+    document.getElementById('reserveSuccess').style.display = 'block';
+    var brushSvg = document.getElementById('sumiBrushSvg');
+    if (brushSvg) {
+      brushSvg.classList.remove('drawing');
+      void brushSvg.offsetWidth;
+      brushSvg.classList.add('drawing');
     }
   };
 
