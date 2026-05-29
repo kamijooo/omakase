@@ -278,41 +278,21 @@
 
       {# Success screen — shown after EmailJS send succeeds #}
       <div id="reserveSuccess" style="display:none;">
-        <div class="success-stage">
-          <div class="gold-foil-bg"></div>
-          <span class="gold-particle" style="left:20%;top:70%;--dx:15px;animation-delay:0.2s;"></span>
-          <span class="gold-particle" style="left:35%;top:80%;--dx:-12px;animation-delay:0.6s;"></span>
-          <span class="gold-particle" style="left:55%;top:75%;--dx:18px;animation-delay:1.0s;"></span>
-          <span class="gold-particle" style="left:70%;top:82%;--dx:-10px;animation-delay:1.4s;"></span>
-          <span class="gold-particle" style="left:82%;top:68%;--dx:14px;animation-delay:0.8s;"></span>
-          <span class="gold-particle" style="left:15%;top:60%;--dx:-8px;animation-delay:1.8s;"></span>
-
-          <svg class="sumi-brush-svg" id="sumiBrushSvg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <path d="M 28 22 Q 50 18 72 22"/>
-            <path d="M 32 22 L 30 38"/>
-            <path d="M 68 22 L 70 38"/>
-            <path d="M 30 38 L 70 38"/>
-            <path d="M 26 50 L 74 50"/>
-            <path d="M 50 38 L 50 50"/>
-            <path d="M 38 62 L 62 62"/>
-            <path d="M 50 62 L 50 82"/>
-            <path d="M 26 82 L 74 82"/>
-          </svg>
-
-          <h4 class="success-title" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:26px;color:#c9a96e;margin:0 0 8px;letter-spacing:0.05em;">Request Received</h4>
-          <p class="success-title" style="font-family:'Noto Serif JP',serif;font-size:12px;color:rgba(201,169,110,0.7);margin:0 0 20px;letter-spacing:0.15em;">ご予約リクエストを承りました</p>
-
-          <div class="success-body" style="max-width:300px;margin:0 auto;padding:16px 20px;background:rgba(201,169,110,0.05);border:1px solid rgba(201,169,110,0.2);border-radius:12px;">
+        <div style="text-align:center;padding:24px 12px;">
+          <div style="width:54px;height:54px;margin:0 auto 18px;border-radius:50%;border:1.5px solid rgba(201,169,110,0.6);display:flex;align-items:center;justify-content:center;">
+            <span style="color:#c9a96e;font-size:26px;line-height:1;">✓</span>
+          </div>
+          <h4 style="font-family:'Noto Serif JP',serif;font-size:18px;color:#c9a96e;margin:0 0 6px;letter-spacing:0.08em;">ご予約リクエストを承りました</h4>
+          <p style="font-size:12px;color:rgba(201,169,110,0.7);margin:0 0 20px;letter-spacing:0.1em;">Request Received</p>
+          <div style="max-width:300px;margin:0 auto;padding:16px 20px;background:rgba(201,169,110,0.05);border:1px solid rgba(201,169,110,0.2);border-radius:12px;">
             <p style="font-size:13px;color:rgba(240,237,228,0.8);margin:0 0 10px;line-height:1.7;">
-              {{ stores.brand.brand_name }} からの<br/>確定メールをお待ちください。
+              {{ stores.brand.brand_name }} からの確定メールをお待ちください。
             </p>
-            <div style="height:1px;background:rgba(201,169,110,0.2);margin:10px 0;"></div>
             <p style="font-size:12px;color:rgba(240,237,228,0.55);margin:0;line-height:1.6;">
-              Please wait for a confirmation<br/>from {{ stores.brand.brand_name }}.
+              Please wait for a confirmation from {{ stores.brand.brand_name }}.
             </p>
           </div>
-
-          <button onclick="closeReserveModal()" class="success-close" style="margin-top:28px;background:transparent;border:1px solid rgba(201,169,110,0.5);color:#c9a96e;font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:0.2em;padding:11px 32px;border-radius:8px;cursor:pointer;transition:all 0.3s;" onmouseover="this.style.background='rgba(201,169,110,0.1)';this.style.borderColor='#c9a96e';" onmouseout="this.style.background='transparent';this.style.borderColor='rgba(201,169,110,0.5)';">CLOSE</button>
+          <button onclick="closeReserveModal()" style="margin-top:24px;background:transparent;border:1px solid rgba(201,169,110,0.5);color:#c9a96e;font-size:11px;letter-spacing:0.2em;padding:11px 32px;border-radius:8px;cursor:pointer;">CLOSE</button>
         </div>
       </div>
     </div>
