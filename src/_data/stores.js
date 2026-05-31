@@ -21,6 +21,10 @@
  * フォーム体制で必要な設定はすべて `form_config` にまとめてある。
  * 切り替えるときは store の reserve_system を "form" にして、
  * 必要なら form_config の値(EmailJS情報・工事休業日など)を上書きするだけ。
+ *
+ * 【店名】name_full_en に英語+中国語をまとめて1つのフル表記で入れている。
+ * ヒーロー等は name_full_en をそのまま1ブロックで表示する。
+ * (name_zh は空。中国語を別行で分けたい店だけ name_zh に入れる)
  */
 
 // ============================================================
@@ -47,10 +51,10 @@ const STORES = [
     region: "tokyo",
     slug: "asakusa-kominka",
 
-    name_full_en: "Omakase Sushi Wagyu (Muslim-Friendly) Tokyo Asakusa Restaurant",
+    name_full_en: "Omakase Sushi Wagyu (Halal) Tokyo Asakusa Restaurant 浅草寿司和牛餐厅",
     name_short: "Omakase 墨 — Asakusa",
     name_jp: "おまかせ 墨 浅草店",
-    name_zh: "浅草寿司和牛餐厅",
+    name_zh: "",
 
     city: "Asakusa, Tokyo",
     region_label: "Asakusa · Tokyo",
@@ -86,10 +90,10 @@ const STORES = [
     region: "kyoto",
     slug: "gion",
 
-    name_full_en: "Kyoto Omakase Sushi & Wagyu Steak (Muslim-Friendly) Gion Restaurant",
+    name_full_en: "Kyoto Omakase Sushi & Wagyu Halal Gion Restaurant 京都寿司和牛餐厅",
     name_short: "Omakase 墨 — Gion",
     name_jp: "おまかせ 墨 祇園店",
-    name_zh: "京都寿司和牛餐厅",
+    name_zh: "",
 
     city: "Gion, Kyoto",
     region_label: "Gion · Kyoto",
@@ -124,10 +128,10 @@ const STORES = [
     region: "tokyo",
     slug: "tsukiji",
 
-    name_full_en: "Tsukiji Fish Market Sushi Omakase & Wagyu (Muslim-Friendly) Restaurant",
+    name_full_en: "Tsukiji Fish Market Sushi Omakase & Wagyu (Halal) Restaurant 筑地寿司和牛餐厅",
     name_short: "Omakase 墨 — Tsukiji",
     name_jp: "おまかせ 墨 築地店",
-    name_zh: "筑地寿司和牛餐厅",
+    name_zh: "",
 
     city: "Tsukiji, Tokyo",
     region_label: "Tsukiji · Tokyo",
@@ -163,10 +167,10 @@ const STORES = [
     region: "osaka",
     slug: "higashi-shinsaibashi",
 
-    name_full_en: "Osaka Omakase Sushi & Wagyu Steak Halal Dotonbori Restaurant",
+    name_full_en: "Osaka Omakase Sushi & Wagyu Steak Halal Dotonbori Restaurant 大阪寿司和牛餐厅",
     name_short: "Omakase 墨 — Higashi-Shinsaibashi",
     name_jp: "おまかせ 墨 東心斎橋店",
-    name_zh: "大阪寿司和牛餐厅",
+    name_zh: "",
 
     city: "Higashi-Shinsaibashi, Osaka",
     region_label: "Higashi-Shinsaibashi · Osaka",
@@ -201,10 +205,10 @@ const STORES = [
     region: "tokyo",
     slug: "shinjuku-sanchome",
 
-    name_full_en: "Tokyo Omakase Sushi Wagyu (Muslim-Friendly) Shinjuku Restaurant",
+    name_full_en: "Tokyo Omakase Sushi Wagyu (Muslim-Friendly) Shinjuku Restaurant 新宿寿司和牛餐厅",
     name_short: "Omakase 墨 — Shinjuku",
     name_jp: "おまかせ 墨 新宿三丁目店",
-    name_zh: "新宿寿司和牛餐厅",
+    name_zh: "",
 
     city: "Shinjuku, Tokyo",
     region_label: "Shinjuku · Tokyo",
@@ -243,9 +247,9 @@ const STORES = [
     rating_source: "Google reviews",
 
     // HTMLのiframeから取得した実埋め込みURL
-    maps_embed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2864.9117174052094!2d139.70598719999998!3d35.6910264!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188d15e9f7526b%3A0x3182f34b1761d38c!2zVG9reW8gT21ha2FzZSBTdXNoaSBXYWd5dSAoSGFsYWwpIFNoaW5qdWt1IFJlc3RhdXJhbnQg5paw5a6_5a-_5Y-45ZKM54mb6aSQ5Y6F!5e1!3m2!1sja!2sjp!4v1775612822829!5m2!1sja!2sjp"
-    
-    gads_conversion: 'AW-17988602222/6kOSCImRqbUcEO6S0YFD', 
+    maps_embed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2864.9117174052094!2d139.70598719999998!3d35.6910264!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188d15e9f7526b%3A0x3182f34b1761d38c!2zVG9reW8gT21ha2FzZSBTdXNoaSBXYWd5dSAoSGFsYWwpIFNoaW5qdWt1IFJlc3RhdXJhbnQg5paw5a6_5a-_5Y-45ZKM54mb6aSQ5Y6F!5e1!3m2!1sja!2sjp!4v1775612822829!5m2!1sja!2sjp",
+
+    gads_conversion: 'AW-17988602222/6kOSCImRqbUcEO6S0YFD',
   }
 ];
 
